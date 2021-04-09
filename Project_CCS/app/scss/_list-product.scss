@@ -1,0 +1,140 @@
+.list_products{
+    width: 100%;
+    @include breakpoints-down(medium){
+        display: block;
+    }
+    .left-side{
+        flex:0.25;
+        @include breakpoints-down(medium){
+            display: block;
+            flex: 1;
+        }
+        h3{
+            width: 100%;
+            padding: 10px;
+            font-size: $fs-sm;
+            background: $cl-blue;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        ul{
+            background: rgb(51, 51, 51);
+            li{
+                position: relative;
+                padding: 10px;
+                border-bottom: 1px solid $cl-gray; 
+                cursor: pointer; 
+                &:hover > a{
+                    color: $cl-blue;
+                }
+                a{
+                    font-size: 1rem;
+                    color: #fff;
+                    font-weight: normal;
+                }
+               
+            }
+        }
+    }
+    .right-side{
+        flex:0.75;
+        padding: 1.125rem;
+        // overflow-y: scroll;
+        // max-height: 100vh;
+        @include breakpoints-down(medium){
+            flex: 1;
+            overflow: auto;
+            max-height: none;
+        }
+        .products__container{
+            position: relative;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 30px 0;
+            @include breakpoints-down(medium){
+                grid-template-columns: repeat(3,1fr);
+                place-items:center;
+            }
+            @include breakpoints-down(small){
+                grid-template-columns: repeat(2,1fr);
+            }
+            .item-product{
+                height: 250px;
+                width: 200px;
+                position: relative;
+                .item__content{
+                    position: relative;
+                    height: 100%;
+                    width: 100%;
+                    &__hover{
+                        font-size: 1rem;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        transition: all 0.4s;
+                        overflow: hidden;
+                        .cart{
+                          position: absolute;
+                          top: -25%;
+                          transform: translateX(12%);
+                          transition: all 0.4s;
+                          
+                        }
+                        .detail{
+                            position: absolute;
+                            bottom: -25%;
+                            transform: translateX(12%);
+                             transition: all 0.4s;
+                        }
+                        &::before{
+                            content: '';
+                            position: absolute;
+                            top: 0;
+                            left: -100%;
+                            height: 100%;
+                            width: 100%;
+                            background: rgba($color: #000000, $alpha: 0.6);
+                            transition: all 0.5s;
+                        }
+                        &:hover{
+                            .cart{
+                                top: 30%;
+                              }
+                              .detail{
+                                bottom: 30%;
+                              }
+                            &::before{
+                                left: 0;
+                            }
+                        }
+                    }
+                    img{
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        height: 100%;
+                        width: 100%;
+                        object-fit: cover;
+                    }
+                }
+                &__details{
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 200px;
+                    color: #fff;
+                    background: rgba($color: #000000, $alpha: 0.6);
+                    padding: 5px;
+                    a{
+                        display: block;
+                        font-size: $fs-md;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+    }
+}

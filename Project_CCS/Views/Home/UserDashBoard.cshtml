@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "UserDashBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="user container flex">
+    <div class="nav">
+        <!-- 25% -->
+        <h4 class="name-user">Chào Huy</h4>
+        <ul>
+            <li><i class="fa fa-user-circle" aria-hidden="true"></i><a href="#">Thông tin tài khoản</a></li>
+            <li><i class="fa fa-history"></i><a href="">Lịch sử mua hàng</a></li>
+            <li><i class="fa fa-cart-arrow-down" aria-hidden="true"></i><a href="giohang.html">Giỏ hàng</a></li>
+            <li><i class="fa fa-key"></i><a href="/user-doimk.html">Đổi mật khẩu</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <!-- 75% -->
+        <h3>Thông tin tài khoản</h3>
+        <form action="">
+            <div class="inputBox">
+                <label for="">Họ tên</label>
+                <input type="text" name="ten" value="Quang Huy" autocomplete="none">
+            </div>
+            <div class="inputBox">
+                <label for="">Số điện thoại</label>
+                <input type="text" name="sdt" value="039268723">
+            </div>
+            <div class="inputBox">
+                <label for="">Email</label>
+                <input type="text" name="email" value="Huybest10@gmail.com">
+            </div>
+            <div class="inputBox">
+                <label for="">Giới tính</label>
+                <input type="radio" name="gioiTinh" value="nam" checked>
+                <label for="nam">Nam</label>
+                <input type="radio" name="gioiTinh" value="nu">
+                <label for="nu">Nữ</label>
+            </div>
+            <div class="inputBox">
+                <label for="">Ngày sinh</label>
+                <!-- max time = date.now -->
+                <input type="date" name="ngaySinh" value="2018-07-22" min="1970-01-01" max="2021-03-30">
+            </div>
+            <button type="submit">Cập nhật</button>
+        </form>
+    </div>
+</section>
+
