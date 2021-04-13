@@ -49,6 +49,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -174,8 +176,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Categories.cs" />
+    <Compile Include="Models\ContextDB.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\sysdiagrams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -213,22 +219,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="app\dist\css\style.css.map" />
-    <Content Include="app\scss\style.scss" />
-    <Content Include="app\scss\_banner.scss" />
-    <Content Include="app\scss\_details-products.scss" />
-    <Content Include="app\scss\_footer.scss" />
-    <Content Include="app\scss\_giohang.scss" />
-    <Content Include="app\scss\_global.scss" />
-    <Content Include="app\scss\_header.scss" />
-    <Content Include="app\scss\_history.scss" />
-    <Content Include="app\scss\_list-product.scss" />
-    <Content Include="app\scss\_login.scss" />
-    <Content Include="app\scss\_mixin.scss" />
-    <Content Include="app\scss\_products.scss" />
-    <Content Include="app\scss\_services.scss" />
-    <Content Include="app\scss\_user.scss" />
-    <Content Include="app\scss\_variable.scss" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -282,6 +272,8 @@
     <Content Include="Views\Home\UserDashBoard.cshtml" />
     <Content Include="Views\Home\adminDashboard.cshtml" />
     <Content Include="Views\Shared\_HotProduct.cshtml" />
+    <Content Include="Views\Home\productManager.cshtml" />
+    <Content Include="Views\Home\editProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

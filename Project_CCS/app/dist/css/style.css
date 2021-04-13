@@ -1323,6 +1323,13 @@ footer .footer__cp {
   width: 100%;
 }
 
+.user .content form .inputBox input[type="radio"] {
+  -webkit-box-flex: 0.1;
+      -ms-flex: 0.1;
+          flex: 0.1;
+  cursor: pointer;
+}
+
 .user .content form button {
   margin-top: 20px;
   display: block;
@@ -1526,7 +1533,7 @@ footer .footer__cp {
 
 .history th {
   color: #444444;
-  text-align: left;
+  text-align: center;
   padding: 1rem 0;
 }
 
@@ -1536,5 +1543,335 @@ footer .footer__cp {
 
 .history td.pending {
   color: blue;
+}
+
+.admin {
+  width: 100%;
+  background: rgba(255, 254, 254, 0.5);
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+@media (max-width: 39.9375em) {
+  .admin {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+
+.admin .nav {
+  -webkit-box-flex: 0.25;
+      -ms-flex: 0.25;
+          flex: 0.25;
+}
+
+@media (max-width: 39.9375em) {
+  .admin .nav {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.admin .nav h4 {
+  margin-bottom: 20px;
+  color: red;
+}
+
+.admin .nav ul li {
+  padding: 15px 0;
+  cursor: pointer;
+}
+
+.admin .nav ul li:hover {
+  background: rgba(192, 192, 192, 0.24);
+}
+
+.admin .nav ul li:hover a {
+  color: #000;
+}
+
+.admin .nav ul li i {
+  color: #414141;
+  margin-left: 20px;
+}
+
+@media (max-width: 63.9375em) {
+  .admin .nav ul li i {
+    text-align: center;
+  }
+}
+
+.admin .nav ul li a {
+  margin-left: 20px;
+  color: #414141;
+}
+
+.admin .content {
+  -webkit-box-flex: 0.65;
+      -ms-flex: 0.65;
+          flex: 0.65;
+}
+
+@media (max-width: 39.9375em) {
+  .admin .content {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.admin .content h3 {
+  margin-bottom: 20px;
+}
+
+.admin .content form {
+  width: 100%;
+}
+
+.admin .content form .inputBox {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 10px;
+}
+
+.admin .content form .inputBox label {
+  display: block;
+  width: 110px;
+  min-width: 110px;
+  font-size: 1.125rem;
+}
+
+.admin .content form .inputBox input {
+  padding: 12px 25px;
+  outline: none;
+  border: #6b6b6b;
+  width: 100%;
+}
+
+.admin .content form button {
+  margin-top: 20px;
+  display: block;
+  cursor: pointer;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.125rem;
+  width: 40%;
+  margin: 0 auto;
+  text-align: center;
+  background: #5a88ca;
+  color: #fff;
+  outline: none;
+  border: 0;
+  border-radius: 25px;
+}
+
+.admin .content table {
+  width: 100%;
+}
+
+.admin .content table input[type="checkbox"] {
+  height: 15px;
+  width: 15px;
+  cursor: pointer;
+}
+
+.admin .content table thead {
+  border-bottom: 2px solid #000;
+}
+
+.admin .content table tbody tr td {
+  text-align: center;
+  padding: 10px;
+}
+
+.admin .content table tbody tr td .imgBox {
+  position: relative;
+  height: 100px;
+  width: 100px;
+  margin: 0 auto;
+}
+
+.admin .content table tbody tr td .imgBox img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.admin .content table tbody tr td .iconBox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.admin .content table tbody tr td .iconBox i {
+  cursor: pointer;
+  color: red;
+  font-size: 1.125rem;
+}
+
+.admin .content table tbody tr td .iconBox i.check {
+  color: #e9e93d;
+  margin-left: 10px;
+}
+
+.admin .content .nav-menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 20px 0;
+}
+
+.admin .content .nav-menu h3 {
+  margin: 0;
+}
+
+.admin .content .nav-menu .searchBox {
+  width: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.admin .content .nav-menu .searchBox button {
+  padding: 10px;
+  width: 100px;
+  margin: 0;
+  margin-left: 10px;
+}
+
+.admin .content .nav-menu input {
+  display: block;
+  height: 30px;
+  width: 40%;
+}
+
+.admin .content .nav-menu a {
+  font-size: 1.125rem;
+  display: inline-block;
+  padding: 5px 10px;
+  font-weight: bold;
+  background: green;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.admin .content .nav-menu a.delete {
+  background-color: red;
+}
+
+.admin .content .nav-menu a i {
+  color: #fff;
+  margin-right: 10px;
+}
+
+.modal {
+  display: none;
+  opacity: 0;
+  position: fixed;
+  z-index: 9999;
+  top: 20%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -20%);
+          transform: translate(-50%, -20%);
+  background: #fff;
+  height: 560px;
+  width: 500px;
+  padding: 1rem;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.modal.isOpen {
+  display: block;
+  opacity: 1;
+}
+
+.modal.isClose {
+  display: none;
+  opacity: 0;
+}
+
+.modal__header h2 {
+  text-align: center;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  color: green;
+}
+
+.modal__header a {
+  color: red;
+  font-size: 1.5rem;
+}
+
+.modal__body .groupBox {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.modal__body .groupBox input, .modal__body .groupBox select {
+  width: 100%;
+  display: block;
+  padding: 10px;
+}
+
+.modal__body .groupBox:last-child {
+  height: 100px;
+  width: 100px;
+}
+
+.modal__footer {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+.modal__footer a {
+  display: block;
+  background: green;
+  padding: 0.5rem 1.5rem;
+  color: #fff;
+}
+
+.modal__footer a i {
+  margin-right: 10px;
+}
+
+#demo-image {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+form.edit .groupBox {
+  height: 100px;
+  width: 100px;
+  margin: 20px auto;
 }
 /*# sourceMappingURL=style.css.map */

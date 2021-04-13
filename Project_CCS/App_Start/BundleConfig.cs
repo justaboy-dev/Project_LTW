@@ -24,7 +24,6 @@ namespace Project_CCS
                       "~/app/js/owl.carousel.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/site.css",
                       "~/app/dist/css/style.css"));
         }
     }

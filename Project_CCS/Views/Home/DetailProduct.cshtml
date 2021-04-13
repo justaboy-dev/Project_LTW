@@ -1,4 +1,4 @@
-﻿
+﻿@model Project_CCS.Models.Product
 @{
     ViewBag.Title = "Chi tiết sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,14 +7,16 @@
 <h1 class="main_title">Capoccino<i class="fa fa-fire" style="color: red;"></i></h1>
 <section class="detail-product flex container">
     <div class="left-side">
-        <!-- Contain img product 25%-->\
-        <img src="/app/img/coffee/capuccino.jpg" alt="">
+        <!-- Contain img product 25%-->
+       
+        <img src="@Html.DisplayFor(model => model.image)" alt="">
     </div>
     <div class="right-side">
         <!-- Contains cart, price, quantily 75% -->
-        <h3 class="product-name">Capoccino</h3>
+        <h3 class="product-name"> @Html.DisplayFor(model => model.name)</h3>
         <p class="product-price">
-            65,000 <sup>đ</sup></h3>
+            @Html.DisplayFor(model => model.price) <sup>đ</sup>
+        </p>
             <form action="">
                 <div class="quan">
                     <label for="">Số lượng:</label>
@@ -22,10 +24,9 @@
                 </div>
                 <button>Thêm vào giỏ</button>
             </form>
-        <p class="product-description">
-            Cappuccino là tên gọi một loại café của Ý, được tạo nên từ 3 phần đều nhau: Café Espresso pha với lượng nước gấp đôi thông thường (espresso lungo), sữa nóng và sữa sủi bọt. Để hoàn thiện khẩu vị, người ta thường rải lên trên tách cà phê Cappuccino là bột ca cao hay bột quế. Trong các quán cà phê ở Ý, Barista thường dùng khuôn hay dùng thìa và bằng cách khuấy điệu nghệ trong lúc rắc bột để tạo thành các hình nghệ thuật.
-            Tách Cappuccino bao gồm 3 thành phần chính: Café espresso, sữa nóng và sữa sủi bọt, tạo nên sự hòa quyện hoàn hảo về hương vị với vị café trầm và nhẹ, hơi đăng đắng và vị béo của sữa, ngọt ngào của kem.
-        </p>
+            <p class="product-description">
+                @Html.DisplayFor(model => model.descriptions)
+            </p>
 
     </div>
 </section>
