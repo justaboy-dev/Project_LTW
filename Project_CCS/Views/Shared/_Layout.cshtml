@@ -16,7 +16,7 @@
 <body>
     <header class="flex jc-c ai-c">
         <nav class="container flex jc-sb ai-c">
-            <a href="/" class="logo">CCS</a>
+            <a href="/" class="logo"><img src="~/app/img/logo.png" /></a>
             <a id="btnToggle" href="#" class="toggle hide-for-desktop">
                 <span></span>
                 <span></span>
@@ -26,7 +26,12 @@
                 <li class="acv"><a href="@Url.Action("Index","Home")">Trang chủ</a></li>
                 <li><a href="@Url.Action("ListProduct","Home")">Sản phẩm</a></li>
                 <li><a href="@Url.Action("UserDashBoard","Home")">Tài khoản</a></li>
-                <li class="searchBox"><input placeholder="Bạn đang tìm gì?" name="txtKeyWord" type="text"><button><i class="fa fa-search" aria-hidden="true"></i></button></li>
+                @using (Html.BeginForm("Find", "Home", FormMethod.Post))
+                {
+                    <li class="searchBox"><input placeholder="Bạn đang tìm gì?" name="txtKeyWord" type="text">
+                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button></li>
+                }
+
             </ul>
             <div class="status hide-for-mobile">
                 <a href="@Url.Action("Login","Home")"><i class="fa fa-user-circle" aria-hidden="true"></i>Đăng nhập</a>

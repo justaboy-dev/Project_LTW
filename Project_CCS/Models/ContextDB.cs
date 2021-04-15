@@ -12,15 +12,11 @@ namespace Project_CCS.Models
         {
         }
 
-        public virtual DbSet<Categories> Categories { get; set; }
-        public virtual DbSet<Product> Product { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>()
-                .Property(e => e.descriptions)
-                .IsFixedLength();
         }
     }
 }
