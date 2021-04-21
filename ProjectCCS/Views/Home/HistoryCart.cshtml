@@ -1,4 +1,4 @@
-﻿
+﻿@using ProjectCCS.Models
 @{
     ViewBag.Title = "HistoryCart";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,34 +6,12 @@
 
 <!-- Dashbroad for user -->
 <section class="user history-main container flex">
-    <div class="nav">
-        <!-- 25% -->
-        <h4 class="name-user">Chào Huy</h4>
-        <ul>
-            <li><i class="fa fa-user-circle" aria-hidden="true"></i><a href="#">Thông tin tài khoản</a></li>
-            <li><i class="fa fa-history"></i><a href="">Lịch sử mua hàng</a></li>
-            <li><i class="fa fa-cart-arrow-down" aria-hidden="true"></i><a href="giohang.html">Giỏ hàng</a></li>
-            <li><i class="fa fa-key"></i><a href="/user-doimk.html">Đổi mật khẩu</a></li>
-        </ul>
-    </div>
+    @Html.Partial("~/Views/Shared/_NavigationBar.cshtml")
     <div class="content">
         <!-- 75% -->
         <h3>Lịch sử mua hàng</h3>
+
         <table class="history">
-            <tr>
-                <th>Mã đơn hàng</th>
-                <th>Ngày mua</th>
-                <th>Sản phẩm</th>
-                <th>Tổng tiền</th>
-                <th>Trạng thái</th>
-            </tr>
-            <tr>
-                <td>41251234</td>
-                <td>19/03/2021</td>
-                <td>Mochi x10</td>
-                <td>1.000.000 <sup>đ</sup></td>
-                <td class="pending">Đang giao</td>
-            </tr>
             <tr>
                 <td>41251232</td>
                 <td>19/03/2021</td>

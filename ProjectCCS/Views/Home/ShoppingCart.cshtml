@@ -1,7 +1,11 @@
-﻿
+﻿@using ProjectCCS.Models
+@using ProjectCCS.ViewsModel
+@using System.Globalization
 @{
     ViewBag.Title = "Giỏ hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var list = ViewBag.ShoppingCart as IEnumerable<ShoppingCartVM>;
+    long total = 0;
 }
 
 <section class="giohang container flex mt-3">
@@ -9,64 +13,31 @@
         <!-- 70% -->
         <h2 class="main_title">Giỏ hàng</h2>
         <div class="list__content">
-            <div class="item">
-                <div class="imgBox">
-                    <img src="~/app/img/coffee/mochi.jpg" alt="">
+            @foreach (var item in list)
+            {
+                <div class="item">
+                    <div class="imgBox">
+                        <img src="@item.image" alt="">
+                    </div>
+                    @using (Html.BeginForm("UpdateCart", "Home", FormMethod.Post, new { @class = "item__details"}))
+                    {
+                        <div class="detailBox">
+                            <input type="hidden" name="id" value="@item.id" />
+                            <h3>@item.name</h3>
+                            <p class="price">@String.Format(CultureInfo.CurrentCulture, "{0:C0}", @item.price)</p>
+                        </div>
+                        <div class="inputBox">
+                            <input type="button" value="-">
+                            <input name="amount" type="number" value="@item.Amount" min="1">
+                            <input type="button" value="+">
+                        </div>
+                        <div class="iconBox">
+                            <button class="btn btn-danger"><a href="@Url.Action("RemoveCart", "Home", new { id = item.id })"><i class="fa fa-times-circle"></i></a></button>
+                            <button type="submit" class="btn btn-success" ><i class="check fa fa-check"></i></button>
+                        </div>
+                    }
                 </div>
-                <div class="item__details">
-                    <div class="detailBox">
-                        <h3>Mochi</h3>
-                        <p class="price">145.000 <sup>đ</sup></p>
-                    </div>
-                    <div class="inputBox">
-                        <input type="button" value="-">
-                        <input type="number" value="1" min="1">
-                        <input type="button" value="+">
-                    </div>
-                    <div class="iconBox">
-                        <i class="fa fa-times-circle"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="imgBox">
-                    <img src="~/app/img/coffee/mochi.jpg" alt="">
-                </div>
-                <div class="item__details">
-                    <div class="detailBox">
-                        <h3>Mochi</h3>
-                        <p class="price">145.000 <sup>đ</sup></p>
-                    </div>
-                    <div class="inputBox">
-                        <input type="button" value="-">
-                        <input type="number" value="1" min="1">
-                        <input type="button" value="+">
-                    </div>
-                    <div class="iconBox">
-                        <i class="fa fa-times-circle"></i>
-                        <i class=" check fa fa-check"></i>
-                    </div>
-                </div>
-            </div><div class="item">
-                <div class="imgBox">
-                    <img src="~/app/img/coffee/mochi.jpg" alt="">
-                </div>
-                <div class="item__details">
-                    <div class="detailBox">
-                        <h3>Mochi</h3>
-                        <p class="price">145.000 <sup>đ</sup></p>
-                    </div>
-                    <div class="inputBox">
-                        <input type="button" value="-">
-                        <input type="number" value="1" min="1">
-                        <input type="button" value="+">
-                    </div>
-                    <div class="iconBox">
-                        <i class="fa fa-times-circle"></i>
-                        <i class=" check fa fa-check"></i>
-                    </div>
-                </div>
-            </div>
+            } 
         </div>
 
     </div>
@@ -75,16 +46,19 @@
         <h2 class="main_title">Thông tin thanh toán</h2>
         <div class="list__checkout">
             <h3>Địa chỉ thanh toán:</h3>
-            <p>32 Nguyễn Thị Kiểu, Hiệp Thành, Quận 12, Thành phố Hồ Chí Minh, Phường Hiệp Thành, Quận 12, Hồ Chí Minh Việt Nam</p>
-            <p>Mochi <span>X10</span>: 1.450.000 <sup>đ</sup></p>
-            <p>Mochi <span>X10</span>: 1.450.000 <sup>đ</sup></p>
-            <p>Mochi <span>X10</span>: 1.450.000 <sup>đ</sup></p>
-            <p>Mochi <span>X10</span>: 1.450.000 <sup>đ</sup></p>
-            <p>Mochi <span>X10</span>: 1.450.000 <sup>đ</sup></p>
+            <p>@ViewBag.User.Address</p>
+            @foreach (var item in list)
+            {
+                <div class="flex jc-sb ai-c" style="border-bottom:solid">
+                    <p>@item.name x @item.Amount: </p>
+                    <p>@String.Format(CultureInfo.CurrentCulture, "{0:C0}", (long)item.price * (long)item.Amount)</p>
+                </div>
+                total += (long)item.price * (long)item.Amount;
+            }
         </div>
         <div class="footer__checkout">
-            <h2>Thành tiền: 7.100.000 <sup>đ</sup></h2>
-            <a href="" class="thanhToan">Thanh toán</a>
+            <h2>@String.Format(CultureInfo.CurrentCulture,"{0:C0}",total)</h2>
+            <a href="@Url.Action("Checkout","Home")" class="thanhToan">Thanh toán</a>
         </div>
     </div>
 </section>

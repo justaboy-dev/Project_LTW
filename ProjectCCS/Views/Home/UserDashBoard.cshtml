@@ -8,25 +8,26 @@
     <div class="content">
         <!-- 75% -->
         <h3>Thông tin tài khoản</h3>
-        <form action="">
+        @using(Html.BeginForm("Update","Home",FormMethod.Post))
+        { 
             <div class="inputBox">
                 <label for="">Họ tên</label>
-                <input type="text" name="ten" value="@ViewBag.User.Name" autocomplete="none">
+                <input type="text" name="Name" value="@ViewBag.User.Name" autocomplete="none">
             </div>
             <div class="inputBox">
                 <label for="">Số điện thoại</label>
-                <input type="text" name="sdt" value="@ViewBag.User.Phone">
+                <input type="text" name="Phone" value="@ViewBag.User.Phone" maxlength="10">
             </div>
             <div class="inputBox">
                 <label for="">Email</label>
-                <input type="text" name="email" value="@ViewBag.User.Email">
+                <input type="text" name="Email" value="@ViewBag.User.Email" disabled="disabled">
             </div>
             <div class="inputBox">
                 <label for="">Địa chỉ</label>
-                <input type="text" name="address" value="@ViewBag.User.Address" />
+                <input type="text" name="Address" value="@ViewBag.User.Address" />
             </div>
             <button type="submit">Cập nhật</button>
-        </form>
+        }
     </div>
 </section>
 

@@ -67,33 +67,30 @@
         <a class="exit" href=""><i class="fa fa-times"></i></a>
     </div>
     <div class="modal__body">
-        @using (Html.BeginForm("Add","Home",FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("Add", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            @Html.HiddenFor(m=>m.id, new {name="id", disable=true})
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(m => m.id, new { name = "id", disable = true })
             <div class="groupBox">
                 <label>Tên sản phẩm:</label>
-                <input type="text" name="Name" class="input-group" value="@Html.DisplayFor(m=>m.name)" />
+                @Html.EditorFor(m => m.name, new { @autocomplete = "none" })
             </div>
             <div class="groupBox">
                 <label>Giá sản phẩm:</label>
-                <input type="number" name="price" class="input-group" value="@Html.DisplayFor(m=>m.price)"/>
+                @Html.EditorFor(m => m.price, new { @autocomplete = "none" })
             </div>
             <div class="groupBox">
                 <label>Danh mục:</label>
-                <select name="categoryid">
-                    @foreach(var item in con.Categories.ToList())
-                {
-                    <option value="@item.id">@item.name</option>
-                }
-                </select>
+                @Html.DropDownListFor(m => m.categoryId, new SelectList(con.Categories.ToList(), "id", "name"))
             </div>
             <div class="groupBox">
                 <label>Mô tả</label>
-                <input type="text" name="Description" class="input-group" value="@Html.DisplayFor(m=>m.descriptions)"/>
+                @Html.EditorFor(m => m.descriptions, new { @autocomplete = "none" })
             </div>
             <div class="groupBox">
                 <label>Hình ảnh:</label>
-                <input type="file" name="image" class="input-group" accept="image/png, image/jpg"/>
+                @Html.HiddenFor(m => m.image)
+                @Html.TextBox("file", "", new { type = "file", accept = "image/jpg, image/png" })
             </div>
             <div class="modal__footer">
                 <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i>Add</button>

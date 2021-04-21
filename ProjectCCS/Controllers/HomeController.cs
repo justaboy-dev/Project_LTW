@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ProjectCCS.ViewsModel;
 
 namespace ProjectCCS.Controllers
 {
@@ -28,12 +29,98 @@ namespace ProjectCCS.Controllers
         {
             return View();
         }
+        [HttpGet]
+        [ActionName("ChangePass")]
+        public ActionResult ChangePass_Get()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ActionName("ChangePass")]
+        public ActionResult ChangePass_Post(FormCollection frm)
+        {
+            var user = getUser();
+            User usr = context.Users.Where(p => p.Email.Equals(user)).FirstOrDefault();
+            if(usr==null || !usr.Password.Trim().Equals(frm.Get("oldpass")) || !frm.Get("newpass").Equals(frm.Get("renewpass")))
+            {
+                ViewBag.Message = "Opps. There are an error, please try again";
+                return View();
+            }
+            usr.Password = frm.Get("newpass");
+            context.Entry(usr).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
+            return RedirectToAction("Logout");
+        }
         public ActionResult ShoppingCart()
         {
             if (!CheckLogin())
-                return View("Login");
+                return RedirectToAction("Login");
+
+            var usr = getUser();
+            ViewBag.ShoppingCart = context.ShoppingCarts.Join(
+                context.Products,
+                p=>p.id,
+                q=>q.id,
+                (p,q)=>new {p,q}
+                )
+                .Where(p => p.p.Email.Equals(usr))
+                .Select(p => new ShoppingCartVM
+                {
+                    id = p.q.id,
+                    name = p.q.name,
+                    image = p.q.image,
+                    price = p.q.price,
+                    Amount = p.p.Amount,
+                })
+                .ToList();
+            ViewBag.User = context.Users.Where(p => p.Email.Equals(usr)).FirstOrDefault();
+            return View();
+        }
+        public ActionResult AddToCart(int id)
+        {
+            var email = getUser();
+            ShoppingCart sc = context.ShoppingCarts.Where(p => p.Email.Equals(email) && p.id.Equals(id)).FirstOrDefault();
+            if(sc==null)
+            {
+                sc = new ShoppingCart();
+                sc.Email = email;
+                sc.id = id;
+                sc.Amount = 1;
+                context.ShoppingCarts.Add(sc);
+                context.SaveChanges();
+            }
             else
-                return View();
+            {
+                sc.Amount++;
+                context.Entry(sc).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+            }
+            return RedirectToAction("ListProduct");
+        }
+        public ActionResult RemoveCart(int id)
+        {
+            var user = getUser();
+            ShoppingCart spc = context.ShoppingCarts.Where(p => p.Email.Equals(user) && p.id.Equals(id)).FirstOrDefault();
+            if(spc!=null)
+            {
+                context.ShoppingCarts.Remove(spc);
+                context.SaveChanges();
+            }
+            return RedirectToAction("ShoppingCart");
+        }
+        [HttpPost]
+        public ActionResult UpdateCart(FormCollection frm)
+        {
+            var user = getUser();
+            var id = int.Parse(frm.Get("id"));
+            ShoppingCart spc = context.ShoppingCarts.Where(p => p.Email.Equals(user) && p.id.Equals(id)).FirstOrDefault();
+            if(spc!=null)
+            {
+                spc.Amount = int.Parse(frm.Get("amount"));
+                context.Entry(spc).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+            }
+            return RedirectToAction("ShoppingCart");
         }
         public ActionResult ListProduct()
         {
@@ -54,7 +141,7 @@ namespace ProjectCCS.Controllers
         {
             if(!CheckLogin())
             {
-                return View("Login");
+                return RedirectToAction("Login");
             }
             else
             {
@@ -64,9 +151,17 @@ namespace ProjectCCS.Controllers
                 return View();
             }
         }
-        public ActionResult adminDashboard()
+        [HttpPost]
+        public ActionResult Update(FormCollection frm)
         {
-            return View();
+            var usermail = getUser();
+            User usr = context.Users.Where(p => p.Email.Equals(usermail)).FirstOrDefault();
+            usr.Name = frm.Get("Name");
+            usr.Phone = frm.Get("Phone");
+            usr.Address = frm.Get("Address");
+            context.Entry(usr).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();
+            return RedirectToAction("UserDashBoard");
         }
 
         public ActionResult productManager()
@@ -76,10 +171,26 @@ namespace ProjectCCS.Controllers
             ViewBag.Categories = context.Categories.ToList();
             return View();
         }
-        [HttpPost]
-        public ActionResult Add(FormCollection form, HttpPostedFileBase file)
+        public void SavefileToServer(HttpPostedFileBase file)
         {
-            Product p = new Product();
+            if (file != null && file.ContentLength > 0)
+            {
+                var filename = Path.GetFileName(file.FileName);
+                var path = Path.Combine(Server.MapPath("~/app/img/coffee"), filename);
+                file.SaveAs(path);
+            }
+        }
+        [HttpPost]
+        public ActionResult Add(Product product, HttpPostedFileBase file)
+        {
+
+            if (file != null && file.ContentLength > 0)
+            {
+                SavefileToServer(file);
+                product.image = String.Concat("/app/img/coffee/", Path.GetFileName(file.FileName));
+                context.Products.Add(product);
+                context.SaveChanges();
+            }
             return RedirectToAction("productManager");
         }
         public ActionResult deleteProduct(int id)
@@ -89,10 +200,7 @@ namespace ProjectCCS.Controllers
             context.Products.Remove(pd);
             context.SaveChanges();
 
-            List<Product> list = context.Products.ToList();
-            ViewBag.lst = list;
-            ViewBag.Categories = context.Categories.ToList();
-            return View("productManager");
+            return RedirectToAction("productManager");
         }
         public ActionResult editProduct(int id)
         {
@@ -101,7 +209,7 @@ namespace ProjectCCS.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Product product)
+        public ActionResult Edit(Product product, HttpPostedFileBase file)
         {
 
             Product pd = context.Products.FirstOrDefault(p => p.id == product.id);
@@ -112,7 +220,7 @@ namespace ProjectCCS.Controllers
             pd.image = product.image;
 
             context.SaveChanges();
-            return View("productManager", context.Products.ToList());
+            return RedirectToAction("productManager");
         }
         public ActionResult Filter(int id)
         {
@@ -143,7 +251,7 @@ namespace ProjectCCS.Controllers
                 HttpCookie cookie = new HttpCookie("user", email.ToString());
                 cookie.Expires.AddHours(8);
                 HttpContext.Response.SetCookie(cookie);
-                return View("Index");
+                return RedirectToAction("Index");
             }
             else
             {
@@ -173,7 +281,7 @@ namespace ProjectCCS.Controllers
                 usr.Phone = phone;
                 context.Users.Add(usr);
                 context.SaveChanges();
-                return View("Login");
+                return RedirectToAction("Login");
             }
             else
             {
@@ -186,7 +294,6 @@ namespace ProjectCCS.Controllers
             var c = new HttpCookie("user");
             c.Expires = DateTime.Now.AddSeconds(1);
             Response.Cookies.Add(c);
-            
             return RedirectToAction("Index");
         }
     }

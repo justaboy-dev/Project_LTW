@@ -1477,7 +1477,6 @@ footer .footer__cp {
   color: rgba(250, 0, 0, 0.726);
   height: 40px;
   width: 40px;
-  margin-left: 10px;
 }
 
 .giohang .list__content .item__details .iconBox i:hover {
@@ -1487,7 +1486,10 @@ footer .footer__cp {
 .giohang .list__content .item__details .iconBox i.check {
   color: seagreen;
 }
-
+.giohang .list__content .item__details .iconBox button {
+    width: 40px;
+    height: 40px
+}
 .giohang .checkout {
   -webkit-box-flex: 0.3;
       -ms-flex: 0.3;

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProjectCCS.Models.Product>
+﻿@using System.Globalization
+@model IEnumerable<ProjectCCS.Models.Product>
 @{
     ViewBag.Title = "Danh sách sản phẩm";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -28,13 +29,13 @@
                     <div class="item__content">
                         <img src="@product.image" alt="">
                         <div class="item__content__hover">
-                            <a href="" class="cart btn-detail"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Thêm vào giỏ</a>
-                            <a href="/Home/detailProduct/@product.id" class="detail btn-detail"><i class="fa fa-eye"></i>Xem chi tiết</a>
+                            <a href="@Url.Action("AddToCart","Home", new { id=product.id })" class="cart btn-detail"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Thêm vào giỏ</a>
+                            <a href="@Url.Action("detailProduct","Home", new { id = product.id })" class="detail btn-detail"><i class="fa fa-eye"></i>Xem chi tiết</a>
                         </div>
                     </div>
                     <div class="item-product__details">
                         <a href="/">@product.name</a>
-                        <span>@product.price đ</span>
+                        <span>@String.Format(CultureInfo.CurrentCulture, "{0:C0}",product.price)</span>
                     </div>
                 </div>
             }
