@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ProjectCCS.Models.User
+@{
     ViewBag.Title = "UserDashBoard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,22 +10,24 @@
         <!-- 75% -->
         <h3>Thông tin tài khoản</h3>
         @using(Html.BeginForm("Update","Home",FormMethod.Post))
-        { 
+        {
+            @Html.ValidationSummary()
             <div class="inputBox">
-                <label for="">Họ tên</label>
-                <input type="text" name="Name" value="@ViewBag.User.Name" autocomplete="none">
+                @Html.LabelFor(m => m.Name, "Họ tên")
+                @Html.EditorFor(m=>m.Name, new {autocomplete="none"})
             </div>
             <div class="inputBox">
-                <label for="">Số điện thoại</label>
-                <input type="text" name="Phone" value="@ViewBag.User.Phone" maxlength="10">
+                @Html.LabelFor(m => m.Phone, "Số điện thoại")
+                @Html.EditorFor(m => m.Phone, new { autocomplete = "none" })
+                @Html.ValidationMessageFor(m=>m.Phone)
             </div>
             <div class="inputBox">
-                <label for="">Email</label>
-                <input type="text" name="Email" value="@ViewBag.User.Email" disabled="disabled">
+                @Html.LabelFor(m => m.Email, "Email")
+                @Html.TextBoxFor(m => m.Email, new { disable = "disable", @readonly = "readonly" })
             </div>
             <div class="inputBox">
-                <label for="">Địa chỉ</label>
-                <input type="text" name="Address" value="@ViewBag.User.Address" />
+                @Html.LabelFor(m => m.Address, "Địa chỉ")
+                @Html.EditorFor(m => m.Address, new { autocomplete = "none" })
             </div>
             <button type="submit">Cập nhật</button>
         }

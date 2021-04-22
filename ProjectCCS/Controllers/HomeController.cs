@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ProjectCCS.ViewsModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjectCCS.Controllers
 {
@@ -41,11 +42,16 @@ namespace ProjectCCS.Controllers
         {
             var user = getUser();
             User usr = context.Users.Where(p => p.Email.Equals(user)).FirstOrDefault();
-            if(usr==null || !usr.Password.Trim().Equals(frm.Get("oldpass")) || !frm.Get("newpass").Equals(frm.Get("renewpass")))
+            if(!usr.Password.Trim().Equals(frm.Get("oldpass")))
             {
-                ViewBag.Message = "Opps. There are an error, please try again";
+                ModelState.AddModelError("", "Password does not match");
                 return View();
             }
+            if(!frm.Get("newpass").Equals(frm.Get("renewpass")))
+            {
+                ModelState.AddModelError("", "New password and Re-new does not match");
+                return View();
+            }    
             usr.Password = frm.Get("newpass");
             context.Entry(usr).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
@@ -147,18 +153,21 @@ namespace ProjectCCS.Controllers
             {
                 var usremail = getUser();
                 User usr = context.Users.Where(p => p.Email.Equals(usremail)).FirstOrDefault();
-                ViewBag.User = usr;
-                return View();
+                return View(usr);
             }
         }
         [HttpPost]
-        public ActionResult Update(FormCollection frm)
+        public ActionResult Update(User user)
         {
+            if(!ModelState.IsValidField("Phone"))
+            {
+                return View();
+            }    
             var usermail = getUser();
             User usr = context.Users.Where(p => p.Email.Equals(usermail)).FirstOrDefault();
-            usr.Name = frm.Get("Name");
-            usr.Phone = frm.Get("Phone");
-            usr.Address = frm.Get("Address");
+            usr.Name = user.Name.Trim();
+            usr.Phone = user.Phone.Trim();
+            usr.Address = user.Address.Trim();
             context.Entry(usr).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
             return RedirectToAction("UserDashBoard");
@@ -214,9 +223,9 @@ namespace ProjectCCS.Controllers
 
             Product pd = context.Products.FirstOrDefault(p => p.id == product.id);
 
-            pd.name = product.name;
+            pd.name = product.name.Trim();
             pd.price = product.price;
-            pd.descriptions = product.descriptions;
+            pd.descriptions = product.descriptions.Trim();
             pd.image = product.image;
 
             context.SaveChanges();
@@ -243,12 +252,16 @@ namespace ProjectCCS.Controllers
         }
         [HttpPost]
         [ActionName("Login")]
-        public ActionResult Login_Post(string email, string password)
+        public ActionResult Login_Post(User user)
         {
-            var login = context.Users.Where(p => p.Email.Equals(email) && p.Password.Equals(password)).FirstOrDefault();
+            if (!ModelState.IsValidField("Email"))
+            {
+                return View();
+            }
+            var login = context.Users.Where(p => p.Email.Equals(user.Email) && p.Password.Equals(user.Password)).FirstOrDefault();
             if(login!=null)
             {
-                HttpCookie cookie = new HttpCookie("user", email.ToString());
+                HttpCookie cookie = new HttpCookie("user", user.Email.ToString());
                 cookie.Expires.AddHours(8);
                 HttpContext.Response.SetCookie(cookie);
                 return RedirectToAction("Index");
@@ -268,26 +281,20 @@ namespace ProjectCCS.Controllers
 
         [HttpPost]
         [ActionName("Register")]
-        public ActionResult Register_post(string name, string address, string email, string phone, string password)
+        public ActionResult Register_post(User user)
         {
-            var existuser = context.Users.Where(p => p.Email.Equals(email)).FirstOrDefault();
-            if (existuser == null)
+            if(!ModelState.IsValid)
             {
-                User usr = new User();
-                usr.Name = name;
-                usr.Address = address;
-                usr.Email = email;
-                usr.Password = password;
-                usr.Phone = phone;
-                context.Users.Add(usr);
-                context.SaveChanges();
-                return RedirectToAction("Login");
-            }
-            else
-            {
-                ViewBag.Message = "This email have been used. Please try with another email";
                 return View();
             }
+            if (context.Users.Where(p => p.Email.Equals(user.Email)).FirstOrDefault() != null)
+            {
+                ModelState.AddModelError("", "Email have been used!");
+                return View();
+            }
+            context.Users.Add(user);
+            context.SaveChanges();
+            return RedirectToAction("Login");
         }
         public ActionResult Logout()
         {

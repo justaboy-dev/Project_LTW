@@ -1,20 +1,9 @@
-﻿
+﻿@model ProjectCCS.Models.User
 @{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="./app/dist/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="./app/dist/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="./app/dist/css/style.css">
-    <title>Coffee & Cakes Shop</title>
-</head>
-<body>
     <section class="content">
         <section class="login-main">
             <div class="box">
@@ -24,9 +13,14 @@
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken();
-                        <input type="text" name="email" placeholder="Email address" required>
-                        <input type="password" name="password" placeholder="Password" required>
-                        <label><input type="checkbox" name="remember"> <span>Remember me</span> <a href="/">Forgot password ?</a></label>
+
+                        @Html.LabelFor(m => m.Email)
+                        @Html.EditorFor(m => m.Email, new { placeholder = "Email address" })
+                        @Html.ValidationMessageFor(m => m.Email)
+
+                        @Html.LabelFor(m => m.Password)
+                        @Html.EditorFor(m => m.Password, new { type = "password", placeholder = "Password" })
+                        @Html.ValidationMessageFor(m => m.Password)
                         <input type="submit" value="Đăng nhập">
                         <a href="@Url.Action("Register", "Home")"><input type="button" value="Đăng ký" /></a>
                     }
@@ -34,5 +28,4 @@
             </div>
         </section>
     </section>
-</body>
 

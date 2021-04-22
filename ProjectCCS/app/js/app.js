@@ -8,6 +8,9 @@ const search = document.getElementById('searchProducts');
 const exitModal = document.querySelector('.modal__header a.exit');
 let listCB = document.querySelectorAll('.admin .content table tbody input[type="checkbox"]');
 
+const password = document.querySelector('#Password');
+const repassword = document.querySelector('#Re-password');
+
 const fileupload = document.getElementById('fileupload');
 const image = document.getElementById('image');
 
@@ -85,4 +88,20 @@ if(btnToggle != null){
             subMenu.classList.add('open')
         }
     })
+}
+
+document.getElementById('Re-password').onkeyup = function () {
+    if (password.value != repassword.value)
+    {
+        repassword.classList.remove("valid");
+        repassword.classList.add("invalid");
+        password.classList.remove("valid");
+        password.classList.add("invalid");
+    }
+    else {
+        repassword.classList.remove("invalid");
+        repassword.classList.add("valid");
+        password.classList.remove("invalid");
+        password.classList.add("valid");
+    }
 }

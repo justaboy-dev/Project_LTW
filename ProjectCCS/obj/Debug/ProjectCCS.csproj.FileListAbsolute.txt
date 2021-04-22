@@ -158,8 +158,8 @@ C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\bin\System.Web.WebPages.Ra
 C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\bin\Newtonsoft.Json.xml
 C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\bin\Antlr3.Runtime.pdb
 C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\obj\Debug\ProjectCCS.csprojAssemblyReference.cache
 C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\obj\Debug\ProjectCCS.csproj.CoreCompileInputs.cache
 C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\obj\Debug\ProjectCCS.csproj.CopyComplete
 C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\obj\Debug\ProjectCCS.dll
 C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\obj\Debug\ProjectCCS.pdb
-C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\obj\Debug\ProjectCCS.csprojAssemblyReference.cache

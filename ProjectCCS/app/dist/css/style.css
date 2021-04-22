@@ -954,7 +954,7 @@ footer .footer__cp {
 }
 
 .content {
-  max-height: 100vh;
+  max-height: none;
 }
 
 .content .login-header {
@@ -1902,5 +1902,14 @@ form.edit .inputBox select, form.edit textarea {
 
 textarea {
   resize: none;
+}
+
+.invalid{
+    border:2px solid red !important;
+    outline-width: 0 !important;
+}
+.valid{
+    border: 2px solid green !important;
+    outline-width: 0 !important;
 }
 /*# sourceMappingURL=style.css.map */

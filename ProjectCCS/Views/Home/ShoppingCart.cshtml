@@ -32,7 +32,7 @@
                             <input type="button" value="+">
                         </div>
                         <div class="iconBox">
-                            <button class="btn btn-danger"><a href="@Url.Action("RemoveCart", "Home", new { id = item.id })"><i class="fa fa-times-circle"></i></a></button>
+                            <a href="@Url.Action("RemoveCart", "Home", new { id = item.id })"><i class="fa fa-times-circle"></i></a>
                             <button type="submit" class="btn btn-success" ><i class="check fa fa-check"></i></button>
                         </div>
                     }
