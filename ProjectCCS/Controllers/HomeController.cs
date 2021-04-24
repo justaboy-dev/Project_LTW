@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using ProjectCCS.ViewsModel;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
+using System.Globalization;
 
 namespace ProjectCCS.Controllers
 {
@@ -26,6 +28,33 @@ namespace ProjectCCS.Controllers
         {
             return Request.Cookies["user"].Value;
         }
+        public void SendMail(IEnumerable<ShoppingCart> list, int IdBill)
+        {
+            var user = getUser();
+            MailMessage mail = new MailMessage();
+            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
+            mail.From = new MailAddress("tranhatan04122000@gmail.com");
+            mail.To.Add(getUser());
+            mail.Subject = "Confirm you order";
+            mail.Body = "\nThis is automatic email, please don't reply it !";
+            mail.Body += "\nYour order ID: " + IdBill.ToString();
+            foreach (var item in list)
+            {
+                mail.Body += "\n\nProduct: " + context.Products.Where(p => p.id.Equals(item.id)).Select(p => p.name).FirstOrDefault();
+                mail.Body += "\nAmount: " + item.Amount.ToString();
+                mail.Body += "\nPrice: " + String.Format(CultureInfo.CurrentCulture, "{0:C0}", ((long)item.Amount * (long)context.Products.Where(p => p.id.Equals(item.id)).Select(p => p.price).FirstOrDefault())).ToString();
+            }
+            mail.Body += "\n\nTotal: " + String.Format(CultureInfo.CurrentCulture, "{0:C0}", context.Bills.Where(p => p.idBill.Equals(IdBill)).Select(p => p.Total).FirstOrDefault()).ToString();
+
+            smtpClient.Port = 587;
+            smtpClient.Credentials = new System.Net.NetworkCredential("tranhatan04122000@gmail.com", "01692063883");
+            smtpClient.EnableSsl = true;
+            smtpClient.Send(mail);
+        }
+
+
+
+
         public ActionResult Index()
         {
             return View();
@@ -136,6 +165,8 @@ namespace ProjectCCS.Controllers
         }
         public ActionResult HistoryCart()
         {
+            var user = getUser();
+            ViewBag.HistoryCart = context.Bills.Where(p => p.Email.Equals(user)).ToList();
             return View();
         }
         public ActionResult DetailProduct(int id)
@@ -302,6 +333,99 @@ namespace ProjectCCS.Controllers
             c.Expires = DateTime.Now.AddSeconds(1);
             Response.Cookies.Add(c);
             return RedirectToAction("Index");
+        }
+        public ActionResult Checkout()
+        {
+            var user = getUser();
+            var list = context.ShoppingCarts.Where(p => p.Email.Equals(user)).ToList();
+            if(list.Count==0)
+            {
+                return RedirectToAction("ListProduct");
+            }
+            var total = 0L;
+            Bill b = new Bill();
+            b.Email = user;
+            foreach(var item in list)
+            {
+                total += (long)item.Amount * (long)context.Products.Where(p => p.id.Equals(item.id)).Select(p => p.price).FirstOrDefault();
+            }
+            b.Total = total;
+            b.Status = false;
+            b.Date = System.DateTime.Now;
+            context.Bills.Add(b);
+            context.SaveChanges();
+
+            foreach(var item in list)
+            {
+                BillDetail bd = new BillDetail();
+                bd.idBill = b.idBill;
+                bd.id = item.id;
+                bd.amount = item.Amount;
+                context.BillDetails.Add(bd);
+                context.SaveChanges();
+            }
+
+            var sc = context.ShoppingCarts.Where(p => p.Email.Equals(user)).ToList();
+            foreach(var item in sc)
+            {
+                context.ShoppingCarts.Remove(item);
+                context.SaveChanges();
+            }
+            SendMail(list, b.idBill);
+
+
+            return RedirectToAction("HistoryCart");
+        }
+        public ActionResult BillManager()
+        {
+            var list = context.Bills.Join(
+                        context.Users,
+                        b => b.Email,
+                        u => u.Email,
+                        (b, u) => new { b, u }
+                    ).Select(
+                        p => new BillManagerVM
+                        {
+                            Address = p.u.Address,
+                            Name = p.u.Name,
+                            idBill = p.b.idBill,
+                            Date = p.b.Date,
+                            Total = p.b.Total,
+                            Status = p.b.Status
+                        }
+                    ).ToList();
+            return View(list);
+        }
+        public ActionResult Complete(int idBill)
+        {
+            var bill = context.Bills.Where(p => p.idBill.Equals(idBill)).FirstOrDefault();
+            if(bill!=null)
+            {
+                bill.Status = true;
+                context.Entry(bill).State = System.Data.Entity.EntityState.Modified;
+                context.SaveChanges();
+            }
+            return RedirectToAction("BillManager");
+        }
+        public ActionResult UserManager()
+        {
+            var list = context.Users.ToList();
+            return View(list);
+        }
+        public ActionResult DeleteUser(string uEmail)
+        {
+            User u = context.Users.Where(p => p.Email.Equals(uEmail)).FirstOrDefault();
+            if(u!=null)
+            {
+                context.Users.Remove(u);
+                context.SaveChanges();
+            }
+            return RedirectToAction("UserManager");
+        }
+        public ActionResult UserFilter(string txtSearch)
+        {
+            var list = context.Users.Where(p => p.Address.Contains(txtSearch) || p.Email.Contains(txtSearch) || p.Name.Contains(txtSearch) || p.Phone.Contains(txtSearch)).ToList();
+            return View("UserManager", list);
         }
     }
 }

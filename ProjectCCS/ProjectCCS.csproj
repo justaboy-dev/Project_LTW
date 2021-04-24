@@ -147,6 +147,7 @@
     <Compile Include="Models\ShoppingCart.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewsModel\BillManagerVM.cs" />
     <Compile Include="ViewsModel\ShoppingCartVM.cs" />
     <Compile Include="ViewsModel\ValidEmail.cs" />
     <Compile Include="ViewsModel\ValidPhone.cs" />
@@ -225,6 +226,8 @@
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Shared\_NavigationBar.cshtml" />
     <Content Include="Views\Home\ChangePass.cshtml" />
+    <Content Include="Views\Home\BillManager.cshtml" />
+    <Content Include="Views\Home\UserManager.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

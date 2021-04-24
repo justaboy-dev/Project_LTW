@@ -19,7 +19,7 @@
                     <div class="imgBox">
                         <img src="@item.image" alt="">
                     </div>
-                    @using (Html.BeginForm("UpdateCart", "Home", FormMethod.Post, new { @class = "item__details"}))
+                    @using (Html.BeginForm("UpdateCart", "Home", FormMethod.Post, new { @class = "item__details" }))
                     {
                         <div class="detailBox">
                             <input type="hidden" name="id" value="@item.id" />
@@ -32,7 +32,7 @@
                             <input type="button" value="+">
                         </div>
                         <div class="iconBox">
-                            <a href="@Url.Action("RemoveCart", "Home", new { id = item.id })"><i class="fa fa-times-circle"></i></a>
+                            <a href="@Url.Action("RemoveCart", "Home", new { id=item.id })"><i class="fa fa-times-circle"></i></a>
                             <button type="submit" class="btn btn-success" ><i class="check fa fa-check"></i></button>
                         </div>
                     }
@@ -58,7 +58,7 @@
         </div>
         <div class="footer__checkout">
             <h2>@String.Format(CultureInfo.CurrentCulture,"{0:C0}",total)</h2>
-            <a href="@Url.Action("Checkout","Home")" class="thanhToan">Thanh toán</a>
+            <a href="@Url.Action("Checkout","Home")" id="CheckoutShoppingCart" class="thanhToan">Thanh toán</a>
         </div>
     </div>
 </section>

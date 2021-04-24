@@ -11,6 +11,9 @@ let listCB = document.querySelectorAll('.admin .content table tbody input[type="
 const password = document.querySelector('#Password');
 const repassword = document.querySelector('#Re-password');
 
+const btnCheckoutShoppingCart = document.querySelector('#CheckoutShoppingCart');
+const listItem = document.querySelectorAll('.item');
+
 const fileupload = document.getElementById('fileupload');
 const image = document.getElementById('image');
 
@@ -90,6 +93,18 @@ if(btnToggle != null){
     })
 }
 
+
+if (btnCheckoutShoppingCart != null) {
+    btnCheckoutShoppingCart.addEventListener('click', function () {
+        if (listItem.length==0) {
+            window.alert("There are nothing in ShoppingCart");
+        }
+        else {
+            window.alert("Success! Please check your email in few minute later !");
+        }
+    })
+}
+
 document.getElementById('Re-password').onkeyup = function () {
     if (password.value != repassword.value)
     {
@@ -105,3 +120,5 @@ document.getElementById('Re-password').onkeyup = function () {
         password.classList.add("valid");
     }
 }
+
+

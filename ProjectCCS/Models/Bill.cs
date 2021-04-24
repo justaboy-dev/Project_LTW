@@ -10,13 +10,15 @@ namespace ProjectCCS.Models
     public partial class Bill
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int idBill { get; set; }
 
         [StringLength(100)]
         public string Email { get; set; }
 
-        [StringLength(10)]
-        public string Total { get; set; }
+        public long? Total { get; set; }
+
+        public bool? Status { get; set; }
+
+        public DateTime? Date { get; set; }
     }
 }

@@ -1479,6 +1479,7 @@ footer .footer__cp {
   width: 40px;
 }
 
+
 .giohang .list__content .item__details .iconBox i:hover {
   background: rgba(170, 170, 170, 0.5);
 }
@@ -1703,7 +1704,7 @@ footer .footer__cp {
 }
 
 .admin .content table tbody tr td {
-  text-align: center;
+  text-align: justify;
   padding: 10px;
 }
 
@@ -1740,8 +1741,13 @@ footer .footer__cp {
 }
 
 .admin .content table tbody tr td .iconBox i.check {
-  color: #e9e93d;
+  color: seagreen;
   margin-left: 10px;
+}
+
+.admin .content table tbody tr td .iconBox i.check:hover {
+    color: darkgreen;
+    zoom: 1.2;
 }
 
 .admin .content .nav-menu {

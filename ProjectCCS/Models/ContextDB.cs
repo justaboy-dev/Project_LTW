@@ -21,29 +21,6 @@ namespace ProjectCCS.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Bill>()
-                .Property(e => e.Email)
-                .IsFixedLength();
-
-            modelBuilder.Entity<Bill>()
-                .Property(e => e.Total)
-                .IsFixedLength();
-
-            modelBuilder.Entity<ShoppingCart>()
-                .Property(e => e.Email)
-                .IsFixedLength();
-
-            modelBuilder.Entity<User>()
-                .Property(e => e.Email)
-                .IsFixedLength();
-
-            modelBuilder.Entity<User>()
-                .Property(e => e.Password)
-                .IsFixedLength();
-
-            modelBuilder.Entity<User>()
-                .Property(e => e.Phone)
-                .IsFixedLength();
         }
     }
 }

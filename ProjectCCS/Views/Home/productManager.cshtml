@@ -1,5 +1,6 @@
 ﻿@model ProjectCCS.Models.Product
 @using ProjectCCS.Models
+@using System.Globalization
 @{
     ViewBag.Title = "productManager";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -24,7 +25,6 @@
         <table>
             <thead>
                 <tr>
-                    <th><input type="checkbox" name="id" id="checkAll"></th>
                     <th>ID</th>
                     <th>Tên SP</th>
                     <th>Hình ảnh</th>
@@ -36,7 +36,6 @@
                 @foreach (var product in list)
                 {
                     <tr>
-                        <td><input type="checkbox" name="id" value="1"></td>
                         <td>@product.id</td>
                         <td>@product.name</td>
                         <td>
@@ -44,7 +43,7 @@
                                 <img src="@product.image" alt="">
                             </div>
                         </td>
-                        <td>@product.price <sup>đ</sup></td>
+                        <td>@String.Format(CultureInfo.CurrentCulture, "{0:C0}", @product.price)</td>
                         <td>
                             <div class="iconBox">
                                 <a href="/Home/deleteProduct/@product.id"><i class="fa fa-trash"></i></a>

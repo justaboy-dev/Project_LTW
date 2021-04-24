@@ -1,7 +1,9 @@
 ﻿@using ProjectCCS.Models
+@using System.Globalization
 @{
     ViewBag.Title = "HistoryCart";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var list = ViewBag.HistoryCart as IEnumerable<Bill>;
 }
 
 <!-- Dashbroad for user -->
@@ -13,12 +15,28 @@
 
         <table class="history">
             <tr>
-                <td>41251232</td>
-                <td>19/03/2021</td>
-                <td>Mocha x4</td>
-                <td>2.000.000 <sup>đ</sup></td>
-                <td class="susscess">Thành công</td>
+                <th>Mã đơn hàng</th>
+                <th>Ngày mua</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
             </tr>
+
+            @foreach (var item in list)
+            {
+                <tr>
+                    <td>@item.idBill</td>
+                    <td>@item.Date</td>
+                    <td>@String.Format(CultureInfo.CurrentCulture, "{0:C0}", @item.Total)</td>
+                    @if (item.Status.Value)
+                    {
+                        <td class="susscess">Success</td>
+                    }
+                    else
+                    {
+                        <td class="pending">Pending</td>
+                    }
+                </tr>
+            }
         </table>
     </div>
 </section>
