@@ -14,6 +14,8 @@ const repassword = document.querySelector('#Re-password');
 const btnCheckoutShoppingCart = document.querySelector('#CheckoutShoppingCart');
 const listItem = document.querySelectorAll('.item');
 
+const Userlogout = document.querySelector('#Userlogout');
+
 const fileupload = document.getElementById('fileupload');
 const image = document.getElementById('image');
 
@@ -104,21 +106,31 @@ if (btnCheckoutShoppingCart != null) {
         }
     })
 }
+if (repassword != null)
+{
+    repassword.onkeyup = function () {
+        if (password.value != repassword.value) {
+            repassword.classList.remove("valid");
+            repassword.classList.add("invalid");
+            password.classList.remove("valid");
+            password.classList.add("invalid");
+        }
+        else {
+            repassword.classList.remove("invalid");
+            repassword.classList.add("valid");
+            password.classList.remove("invalid");
+            password.classList.add("valid");
+        }
+    }
+}
 
-document.getElementById('Re-password').onkeyup = function () {
-    if (password.value != repassword.value)
-    {
-        repassword.classList.remove("valid");
-        repassword.classList.add("invalid");
-        password.classList.remove("valid");
-        password.classList.add("invalid");
-    }
-    else {
-        repassword.classList.remove("invalid");
-        repassword.classList.add("valid");
-        password.classList.remove("invalid");
-        password.classList.add("valid");
-    }
+if (Userlogout != null)
+{
+    Userlogout.addEventListener('click', function () {
+        setTimeout(function () {
+            window.location.href = "https://localhost:44342/";
+        }, 3000);
+    })
 }
 
 

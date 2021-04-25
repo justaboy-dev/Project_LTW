@@ -9,6 +9,8 @@ using ProjectCCS.ViewsModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
 using System.Globalization;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace ProjectCCS.Controllers
 {
@@ -27,6 +29,15 @@ namespace ProjectCCS.Controllers
         public string getUser()
         {
             return Request.Cookies["user"].Value;
+        }
+        public void SavefileToServer(HttpPostedFileBase file)
+        {
+            if (file != null && file.ContentLength > 0)
+            {
+                var filename = Path.GetFileName(file.FileName);
+                var path = Path.Combine(Server.MapPath("~/app/img/coffee"), filename);
+                file.SaveAs(path);
+            }
         }
         public void SendMail(IEnumerable<ShoppingCart> list, int IdBill)
         {
@@ -51,7 +62,18 @@ namespace ProjectCCS.Controllers
             smtpClient.EnableSsl = true;
             smtpClient.Send(mail);
         }
-
+        private String GetMD5(string txt)
+        {
+            String str = "";
+            Byte[] buffer = Encoding.UTF8.GetBytes(txt);
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            buffer = md5.ComputeHash(buffer);
+            foreach (Byte b in buffer)
+            {
+                str += b.ToString("X2");
+            }
+            return str;
+        }
 
 
 
@@ -71,7 +93,8 @@ namespace ProjectCCS.Controllers
         {
             var user = getUser();
             User usr = context.Users.Where(p => p.Email.Equals(user)).FirstOrDefault();
-            if(!usr.Password.Trim().Equals(frm.Get("oldpass")))
+            var md5Oldpass = GetMD5(frm.Get("oldpass"));
+            if (!usr.Password.Equals(md5Oldpass))
             {
                 ModelState.AddModelError("", "Password does not match");
                 return View();
@@ -81,7 +104,7 @@ namespace ProjectCCS.Controllers
                 ModelState.AddModelError("", "New password and Re-new does not match");
                 return View();
             }    
-            usr.Password = frm.Get("newpass");
+            usr.Password = GetMD5(frm.Get("newpass"));
             context.Entry(usr).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
             return RedirectToAction("Logout");
@@ -211,15 +234,7 @@ namespace ProjectCCS.Controllers
             ViewBag.Categories = context.Categories.ToList();
             return View();
         }
-        public void SavefileToServer(HttpPostedFileBase file)
-        {
-            if (file != null && file.ContentLength > 0)
-            {
-                var filename = Path.GetFileName(file.FileName);
-                var path = Path.Combine(Server.MapPath("~/app/img/coffee"), filename);
-                file.SaveAs(path);
-            }
-        }
+        
         [HttpPost]
         public ActionResult Add(Product product, HttpPostedFileBase file)
         {
@@ -289,7 +304,8 @@ namespace ProjectCCS.Controllers
             {
                 return View();
             }
-            var login = context.Users.Where(p => p.Email.Equals(user.Email) && p.Password.Equals(user.Password)).FirstOrDefault();
+            var passMD5 = GetMD5(user.Password);
+            var login = context.Users.Where(p => p.Email.Equals(user.Email) && p.Password.Equals(passMD5)).FirstOrDefault();
             if(login!=null)
             {
                 HttpCookie cookie = new HttpCookie("user", user.Email.ToString());
@@ -323,6 +339,7 @@ namespace ProjectCCS.Controllers
                 ModelState.AddModelError("", "Email have been used!");
                 return View();
             }
+            user.Password = GetMD5(user.Password);
             context.Users.Add(user);
             context.SaveChanges();
             return RedirectToAction("Login");
@@ -330,7 +347,7 @@ namespace ProjectCCS.Controllers
         public ActionResult Logout()
         {
             var c = new HttpCookie("user");
-            c.Expires = DateTime.Now.AddSeconds(1);
+            c.Expires = DateTime.Now;
             Response.Cookies.Add(c);
             return RedirectToAction("Index");
         }
