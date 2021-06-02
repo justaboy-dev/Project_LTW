@@ -22,8 +22,7 @@ namespace ProjectCCS
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/app/js/app.js",
-                      "~/app/js/owl.carousel.min.js",
-                      "~/app/js/jquery.min.js"));
+                      "~/app/js/owl.carousel.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/app/dist/css/style.css"));

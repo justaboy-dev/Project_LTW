@@ -162,3 +162,4 @@ C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\obj\Debug\ProjectCCS.cspro
 C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\obj\Debug\ProjectCCS.csproj.CopyComplete
 C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\obj\Debug\ProjectCCS.dll
 C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\obj\Debug\ProjectCCS.pdb
+C:\Users\LENOVO\Documents\DoAn\Project_LTW\ProjectCCS\obj\Debug\ProjectCCS.csprojAssemblyReference.cache
