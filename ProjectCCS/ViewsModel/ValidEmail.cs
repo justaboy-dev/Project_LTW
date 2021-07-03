@@ -17,6 +17,18 @@ namespace ProjectCCS.ViewsModel
             {
                 return new ValidationResult(FormatErrorMessage(ErrorMessage = "Email is not valid !"));
             }
+            else
+            {
+                if(value!=null)
+                {
+                    string Regemail = value.ToString();
+                    User user = con.Users.Where(p => p.Email.Equals(Regemail)).FirstOrDefault();
+                    if (user != null)
+                    {
+                        return new ValidationResult(FormatErrorMessage(ErrorMessage = "Email have registed, please try again with another email !"));
+                    }
+                }    
+            }    
             return null;
          }
     }

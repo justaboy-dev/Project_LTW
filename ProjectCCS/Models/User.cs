@@ -12,6 +12,7 @@ namespace ProjectCCS.Models
     {
         [Key]
         [StringLength(100)]
+        [Required]
         [ValidEmail]
         public string Email { get; set; }
 

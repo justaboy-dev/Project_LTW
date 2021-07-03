@@ -64,15 +64,19 @@ namespace ProjectCCS.Controllers
         }
         private String GetMD5(string txt)
         {
-            String str = "";
-            Byte[] buffer = Encoding.UTF8.GetBytes(txt);
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            buffer = md5.ComputeHash(buffer);
-            foreach (Byte b in buffer)
+            if (txt != null)
             {
-                str += b.ToString("X2");
+                String str = "";
+                Byte[] buffer = Encoding.UTF8.GetBytes(txt);
+                MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+                buffer = md5.ComputeHash(buffer);
+                foreach (Byte b in buffer)
+                {
+                    str += b.ToString("X2");
+                }
+                return str;
             }
-            return str;
+            return null;
         }
 
 
@@ -304,19 +308,22 @@ namespace ProjectCCS.Controllers
             {
                 return View();
             }
-            var passMD5 = GetMD5(user.Password);
-            var login = context.Users.Where(p => p.Email.Equals(user.Email) && p.Password.Equals(passMD5)).FirstOrDefault();
-            if(login!=null)
-            {
-                HttpCookie cookie = new HttpCookie("user", user.Email.ToString());
-                cookie.Expires.AddHours(8);
-                HttpContext.Response.SetCookie(cookie);
-                return RedirectToAction("Index");
-            }
             else
             {
-                ViewBag.Message = "Opps. Wrong username or password";
-                return View();
+                var passMD5 = GetMD5(user.Password);
+                var login = context.Users.Where(p => p.Email.Equals(user.Email) && p.Password.Equals(passMD5)).FirstOrDefault();
+                if (login != null)
+                {
+                    HttpCookie cookie = new HttpCookie("user", user.Email.ToString());
+                    cookie.Expires.AddHours(8);
+                    HttpContext.Response.SetCookie(cookie);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Message = "Wrong password or username";
+                    return View();
+                }
             }
         }
         [HttpGet]
