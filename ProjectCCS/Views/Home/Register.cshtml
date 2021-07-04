@@ -31,6 +31,7 @@ Layout = "~/Views/Shared/_Layout.cshtml";
 
                     @Html.LabelFor(m => m.Email, new { @class = "register" })
                     @Html.TextBoxFor(m => m.Email, "", new { placeholder = "Email address" })
+                    @Html.ValidationMessage("EmailUsed");
                     @Html.ValidationMessageFor(m => m.Email)
 
 

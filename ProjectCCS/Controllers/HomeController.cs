@@ -343,7 +343,7 @@ namespace ProjectCCS.Controllers
             }
             if (context.Users.Where(p => p.Email.Equals(user.Email)).FirstOrDefault() != null)
             {
-                ModelState.AddModelError("", "Email have been used!");
+                ModelState.AddModelError("EmailUsed", "Email have been used!");
                 return View();
             }
             user.Password = GetMD5(user.Password);
