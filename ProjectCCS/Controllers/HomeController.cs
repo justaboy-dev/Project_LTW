@@ -30,6 +30,7 @@ namespace ProjectCCS.Controllers
         {
             return Request.Cookies["user"].Value;
         }
+        [HttpPost]
         public void SavefileToServer(HttpPostedFileBase file)
         {
             if (file != null && file.ContentLength > 0)
@@ -93,22 +94,20 @@ namespace ProjectCCS.Controllers
         }
         [HttpPost]
         [ActionName("ChangePass")]
-        public ActionResult ChangePass_Post(FormCollection frm)
+        public ActionResult ChangePass_Post(ChangePasswordVM cp)
         {
-            var user = getUser();
-            User usr = context.Users.Where(p => p.Email.Equals(user)).FirstOrDefault();
-            var md5Oldpass = GetMD5(frm.Get("oldpass"));
-            if (!usr.Password.Equals(md5Oldpass))
+            if(!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Password does not match");
                 return View();
             }
-            if(!frm.Get("newpass").Equals(frm.Get("renewpass")))
+            var user = getUser();
+            User usr = context.Users.Where(p => p.Email.Equals(user)).FirstOrDefault();
+            if(!usr.Password.Equals(GetMD5(cp.Password)))
             {
-                ModelState.AddModelError("", "New password and Re-new does not match");
+                ModelState.AddModelError("error", "Password doesn't match");
                 return View();
             }    
-            usr.Password = GetMD5(frm.Get("newpass"));
+            usr.Password = GetMD5(cp.NewPassword);
             context.Entry(usr).State = System.Data.Entity.EntityState.Modified;
             context.SaveChanges();
             return RedirectToAction("Logout");
@@ -217,9 +216,9 @@ namespace ProjectCCS.Controllers
         [HttpPost]
         public ActionResult Update(User user)
         {
-            if(!ModelState.IsValidField("Phone"))
+            if(!(ModelState.IsValidField("Name") && ModelState.IsValidField("Phone") && ModelState.IsValidField("Address")))
             {
-                return View();
+                return View("UserDashBoard");
             }    
             var usermail = getUser();
             User usr = context.Users.Where(p => p.Email.Equals(usermail)).FirstOrDefault();
@@ -242,14 +241,24 @@ namespace ProjectCCS.Controllers
         [HttpPost]
         public ActionResult Add(Product product, HttpPostedFileBase file)
         {
-
+            if(!(ModelState.IsValidField("name") && ModelState.IsValidField("descriptions") && ModelState.IsValidField("price") ))
+            {
+                List<Product> list = context.Products.ToList();
+                ViewBag.lst = list;
+                ViewBag.Categories = context.Categories.ToList();
+                return View("productManager");
+            }
             if (file != null && file.ContentLength > 0)
             {
                 SavefileToServer(file);
                 product.image = String.Concat("/app/img/coffee/", Path.GetFileName(file.FileName));
-                context.Products.Add(product);
-                context.SaveChanges();
             }
+            else
+            {
+                product.image = "/app/img/product-temp.png";
+            }    
+            context.Products.Add(product);
+            context.SaveChanges();
             return RedirectToAction("productManager");
         }
         public ActionResult deleteProduct(int id)
@@ -272,15 +281,28 @@ namespace ProjectCCS.Controllers
         {
 
             Product pd = context.Products.FirstOrDefault(p => p.id == product.id);
-
+            if(!ModelState.IsValid)
+            {
+                return View("editProduct", pd);
+            }    
             pd.name = product.name.Trim();
             pd.price = product.price;
             pd.descriptions = product.descriptions.Trim();
-            pd.image = product.image;
 
+            if(file != null && file.ContentLength > 0)
+            {
+                SavefileToServer(file);
+                pd.image = String.Concat("/app/img/coffee/", Path.GetFileName(file.FileName));
+            }    
+            else
+            {
+                pd.image = product.image;
+            }    
             context.SaveChanges();
             return RedirectToAction("productManager");
         }
+
+
         public ActionResult Filter(int id)
         {
             ViewBag.categories = context.Categories.ToList();

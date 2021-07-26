@@ -20,8 +20,10 @@ namespace ProjectCCS.Models
         [Required]
         public string descriptions { get; set; }
 
+        [Required]
         public int categoryId { get; set; }
 
+        [Required]
         public long? price { get; set; }
     }
 }
